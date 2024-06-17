@@ -1,0 +1,172 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class Payment {
+  final String title;
+  final String amount;
+  final String date;
+  final String type; // Added type for different payment icons
+
+  Payment({
+    required this.title,
+    required this.amount,
+    required this.date,
+    required this.type,
+  });
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Payment Management App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: PaymentListScreen(),
+    );
+  }
+}
+
+class PaymentListScreen extends StatelessWidget {
+  final List<Payment> payments = [
+    Payment(
+      title: 'Payment 1',
+      amount: '\$100',
+      date: '01-01-2024',
+      type: 'credit_card',
+    ),
+    Payment(
+      title: 'Payment 2',
+      amount: '\$200',
+      date: '02-01-2024',
+      type: 'bank_transfer',
+    ),
+    Payment(
+      title: 'Payment 3',
+      amount: '\$150',
+      date: '03-01-2024',
+      type: 'cash',
+    ),
+    Payment(
+      title: 'Payment 4',
+      amount: '\$180',
+      date: '04-01-2024',
+      type: 'credit_card',
+    ),
+    Payment(
+      title: 'Payment 5',
+      amount: '\$120',
+      date: '05-01-2024',
+      type: 'cash',
+    ),
+    Payment(
+      title: 'Payment 6',
+      amount: '\$250',
+      date: '06-01-2024',
+      type: 'bank_transfer',
+    ),
+    Payment(
+      title: 'Payment 7',
+      amount: '\$300',
+      date: '07-01-2024',
+      type: 'credit_card',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Image.asset(
+            'assets/logo.png', // Replace with your logo asset
+            height: 36,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              // Implement search functionality
+            },
+          ),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: payments.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              leading: _buildPaymentTypeIcon(payments[index].type),
+              title: Text(
+                payments[index].title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(payments[index].amount),
+                  Text(
+                    'Date: ${payments[index].date}',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                // Handle payment item tap
+              },
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Implement add payment action
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  // Helper method to build payment type icons based on type
+  Widget _buildPaymentTypeIcon(String type) {
+    String assetName = '';
+    switch (type) {
+      case 'credit_card':
+        assetName = 'assets/credit_card.png';
+        break;
+      case 'bank_transfer':
+        assetName = 'assets/bank_transfer.png';
+        break;
+      case 'cash':
+        assetName = 'assets/cash.png';
+        break;
+      default:
+        assetName = 'assets/credit_card.png'; // Default to credit card icon
+    }
+
+    return Image.asset(
+      assetName,
+      width: 40,
+      height: 40,
+    );
+  }
+}
